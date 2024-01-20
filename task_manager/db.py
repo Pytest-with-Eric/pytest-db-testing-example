@@ -3,10 +3,11 @@ Database Operations for the Task Manager
 """
 import os
 from typing import List
+from datetime import datetime, timezone
 from sqlmodel import SQLModel, create_engine, Session, select
-from model import Tasks, TaskStatus
-from exceptions import TaskNotFoundError
-from logger import create_logger
+from task_manager.model import Tasks, TaskStatus
+from task_manager.exceptions import TaskNotFoundError
+from task_manager.logger import create_logger
 
 # Extract the filename without extension
 filename = os.path.splitext(os.path.basename(__file__))[0]
@@ -35,7 +36,6 @@ class DB:
         logger.info("Creating Task in DB")
         session.add(task)
         session.commit()
-        session.close()
 
     def read_task(self, task_id: int, session: Session) -> Tasks:
         """
@@ -102,22 +102,28 @@ class DB:
 
         # Get the task
         statement = select(Tasks).where(Tasks.id == task_id)
-        result: Tasks = session.exec(statement).first()
+        result = session.exec(statement).first()
 
-        # Update the task
-        if task_title:
-            result.title = task_title
+        if result:
+            # Update the task
+            if task_title:
+                result.title = task_title
 
-        if task_description:
-            result.description = task_description
+            if task_description:
+                result.description = task_description
 
-        if task_status:
-            result.status = task_status
+            if task_status:
+                result.status = task_status
 
-        session.add(result)
-        session.commit()
-        logger.info(f"Updated Task with ID {task_id} in DB")
-        session.close()
+            updated_at = datetime.now(timezone.utc)
+            result.updated_at = updated_at
+
+            session.add(result)
+            session.commit()
+            logger.info(f"Updated Task with ID {task_id} in DB")
+        else:
+            logger.error(f"Task with ID {task_id} not found")
+            raise TaskNotFoundError(f"Task with ID {task_id} not found")
 
     def delete_task(self, session: Session, task_id: int) -> None:
         """
@@ -151,4 +157,31 @@ class DB:
             logger.error(f"Task with ID {task_id} not found")
             raise TaskNotFoundError(f"Task with ID {task_id} not found")
 
-        session.close()
+    def delete_all_tasks(self, session: Session) -> None:
+        """
+        Delete all tasks from the database
+
+        Args:
+            session (Session): The database session
+
+        Returns:
+            None
+        """
+        # Delete all tasks from the database
+        logger.info("Deleting all Tasks from DB")
+        statement = select(Tasks)
+        results = session.exec(statement)
+
+        for task in results:
+            session.delete(task)
+            session.commit()
+
+        # Confirm the deletion
+        results_post_delete = session.exec(statement)
+        tasks_post_delete = results_post_delete.all()
+
+        if tasks_post_delete == []:
+            logger.info("All Tasks were confirmed deleted")
+        else:
+            logger.error("All Tasks were not deleted")
+            raise Exception("All Tasks were not deleted")

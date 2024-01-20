@@ -3,9 +3,10 @@ Main Function Execution for the Task Manager
 """
 import os
 from sqlmodel import Session
-from model import Tasks, TaskStatus
-from db import DB
-from logger import create_logger
+from task_manager.db import DB
+from task_manager.logger import create_logger
+from task_manager.model import Tasks, TaskStatus
+
 
 # Extract the filename without extension
 filename = os.path.splitext(os.path.basename(__file__))[0]
@@ -53,4 +54,7 @@ if __name__ == "__main__":
     # )
 
     # Delete task2
-    db.delete_task(session=session, task_id=1)
+    # db.delete_task(session=session, task_id=1)
+
+    # Delete all tasks
+    # db.delete_all_tasks(session=session)

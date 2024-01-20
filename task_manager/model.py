@@ -2,9 +2,10 @@
 Model for the Task Manager
 """
 from typing import Optional
-from sqlmodel import Field, SQLModel
+from sqlmodel import Field, SQLModel, Column
+from sqlalchemy import DateTime, func
 from enum import Enum
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class TaskStatus(str, Enum):
@@ -24,10 +25,12 @@ class Tasks(SQLModel, table=True):
         description="The status of the task",
     )
     created_at: datetime = Field(
-        default_factory=datetime.now,
+        default=datetime.now(timezone.utc),
+        nullable=False,
         description="The timestamp of when the task was created",
     )
     updated_at: datetime = Field(
         default_factory=datetime.now,
-        description="The timestamp of when the task was updated",
+        nullable=False,
+        description="The timestamp of when the task was created",
     )

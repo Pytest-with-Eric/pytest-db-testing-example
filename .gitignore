@@ -118,3 +118,5 @@ dmypy.json
 
 *.pytest_cache
 /tests/unit/tmp_data/
+*.db
+database.db
