@@ -133,3 +133,28 @@ def test_read_all_tasks(db_instance_empty, session, task1, task2):
     assert len(tasks) == 2
     assert tasks[0].title == task1.title
     assert tasks[1].title == task2.title
+
+
+def test_read_all_tasks_empty(db_instance_empty, session):
+    """
+    Test the reading of all tasks when the DB is empty
+    """
+    # Read all Tasks from DB
+    tasks = db_instance_empty.read_tasks(session=session)
+    assert len(tasks) == 0
+
+
+def test_delete_all_tasks(db_instance_empty, session, task1, task2):
+    """
+    Test the deletion of all tasks
+    """
+    # Write 2 Tasks to DB
+    db_instance_empty.create_task(task=task1, session=session)
+    db_instance_empty.create_task(task=task2, session=session)
+
+    # Delete all Tasks from DB
+    db_instance_empty.delete_all_tasks(session=session)
+
+    # Read all Tasks from DB
+    tasks = db_instance_empty.read_tasks(session=session)
+    assert len(tasks) == 0
