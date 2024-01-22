@@ -120,3 +120,8 @@ dmypy.json
 /tests/unit/tmp_data/
 *.db
 database.db
+
+# Ruff
+.ruff
+-ruff_cache
+

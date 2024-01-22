@@ -2,8 +2,7 @@
 Model for the Task Manager
 """
 from typing import Optional
-from sqlmodel import Field, SQLModel, Column
-from sqlalchemy import DateTime, func
+from sqlmodel import Field, SQLModel
 from enum import Enum
 from datetime import datetime, timezone
 
