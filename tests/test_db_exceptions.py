@@ -34,22 +34,6 @@ def test_update_task_not_found(db_instance_empty, session, task1, task2):
         )
 
 
-def test_delete_task(db_instance_empty, session, task1, task2):
-    """
-    Test the deletion of a task
-    """
-    # Write 2 Tasks to DB
-    db_instance_empty.create_task(task=task1, session=session)
-    db_instance_empty.create_task(task=task2, session=session)
-
-    # Delete Task
-    db_instance_empty.delete_task(session=session, task_id=1)
-
-    # Read Task from DB
-    with pytest.raises(TaskNotFoundError):
-        db_instance_empty.read_task(task_id=1, session=session)
-
-
 def test_delete_task_not_found(db_instance_empty, session, task1, task2):
     """
     Test the deletion of a task that does not exist

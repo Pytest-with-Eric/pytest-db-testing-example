@@ -42,6 +42,22 @@ def test_read_all_tasks_empty(db_instance_empty, session):
     assert len(tasks) == 0
 
 
+def test_delete_task(db_instance_empty, session, task1, task2):
+    """
+    Test the deletion of a task
+    """
+    # Write 2 Tasks to DB
+    db_instance_empty.create_task(task=task1, session=session)
+    db_instance_empty.create_task(task=task2, session=session)
+
+    # Delete Task
+    db_instance_empty.delete_task(session=session, task_id=1)
+
+    # Read Task from DB
+    with pytest.raises(TaskNotFoundError):
+        db_instance_empty.read_task(task_id=1, session=session)
+
+
 def test_delete_all_tasks(db_instance_empty, session, task1, task2):
     """
     Test the deletion of all tasks
