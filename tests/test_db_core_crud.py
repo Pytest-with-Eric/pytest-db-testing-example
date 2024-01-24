@@ -1,4 +1,3 @@
-from datetime import datetime
 import pytest
 from task_manager.model import TaskStatus
 from task_manager.exceptions import TaskNotFoundError

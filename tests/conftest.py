@@ -7,7 +7,7 @@ from task_manager.model import Tasks, TaskStatus
 @pytest.fixture
 def task1():
     """
-    Create a Task
+    Create a Task 1
     """
     task1 = Tasks(
         title="Go to the Gym",
@@ -20,7 +20,7 @@ def task1():
 @pytest.fixture
 def task2():
     """
-    Create a Task
+    Create a Task 2
     """
     task2 = Tasks(
         title="Buy Groceries",
@@ -52,7 +52,7 @@ def session(db_instance, scope="session"):
 @pytest.fixture
 def db_instance_empty(db_instance, session, scope="function"):
     """
-    Create an Empty DB Instance, uses `db_instance` fixture
+    Create an Empty DB Instance, uses `db_instance` and `session` fixtures
     """
     # Clear DB before test function
     db_instance.delete_all_tasks(session=session)
