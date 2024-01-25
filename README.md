@@ -1,11 +1,11 @@
-# Pytest Database Testing Example
+# Pytest SQL Database Testing Example
 
-This repo contains the sample code for the article - [How To Use Pytest With Command Line Options (Easy To Follow Guide)](https://pytest-with-eric.com/pytest-advanced/pytest-addoption/) 
+This repo contains the sample code for the article - [How To Test Database Transactions With Pytest And SQLModel](https://pytest-with-eric.com/database-testing/pytest-sql-database-testing/) 
 
 This project explains how to use Pytest Add Options and pass CLI Arguments to your unit tests.
 
 # Requirements
-* Python (3.11.4)
+* Python (3.11+)
 
 Please install the dependencies via the `requirements.txt` file using 
 ```commandline
@@ -16,7 +16,7 @@ If you don't have Pip installed please follow instructions online on how to do i
 # How To Run the Unit Tests
 To run the Unit Tests, from the root of the repo run
 ```commandline
-pytest -v -s
+pytest
 ```
 
 If you have any questions about the project please raise an Issue on GitHub. 
