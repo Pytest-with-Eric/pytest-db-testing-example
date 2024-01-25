@@ -31,5 +31,5 @@ class Tasks(SQLModel, table=True):
     updated_at: datetime = Field(
         default_factory=datetime.now,
         nullable=False,
-        description="The timestamp of when the task was created",
+        description="The timestamp of when the task was updated",
     )
